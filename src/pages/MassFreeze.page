@@ -1,0 +1,99 @@
+<apex:page controller="MassFreezeController" title="Mass Freeze Users">
+<apex:form id="btnForm">
+
+    <apex:sectionHeader title="Mass {!pageAction} users" />
+
+    <apex:outputPanel id="btnPanel">
+        <apex:outputText value="This screen allows you to {!pageAction} users in mass." /><br/>
+        <apex:commandLink value="Click here to swap action" action="{!swapAction}" rerender="btnForm, freezePanel" />
+    </apex:outputPanel>
+
+    <apex:pageMessages />
+
+    <!--
+    **********************************************************************************
+    Freeze panel
+    **********************************************************************************
+    -->
+    <apex:outputPanel rendered="{!showFreezePanel}" id="freezePanel">
+        <apex:pageBlock rendered="{!IF(usersToFreezeCount > 0, 'true', 'false')}">
+            <apex:actionstatus id="freezeBtnArea">
+                <apex:facet name="start">
+                    <apex:commandbutton value="Freezing {!usersToFreezeCount} users..."  disabled="true" id="freezingStatusBtn"/>
+                </apex:facet>
+                <apex:facet name="stop">
+                    <apex:commandbutton value="Freeze all users"
+                                        action="{!freezeAll}"
+                                        status="freezeBtnArea"
+                                        rerender="btnForm"/>
+                </apex:facet>
+            </apex:actionstatus>
+
+            <apex:outputText value="Note: This will freeze all active users, currently a total of {!usersToFreezeCount}." />
+        </apex:pageBlock>
+
+        <apex:pageBlock rendered="{!IF(AND(showNoFreezeUsers, usersToFreezeCount > 0), 'true', 'false')}" >
+            <apex:pageMessage summary="The below {!neverEverFreezeUsersCount} users will NOT be frozen.
+                                   To control the list below, see the MassFreezeSecurity custom setting."
+                          severity="info"
+                          strength="1" />
+
+            <apex:pageBlockTable value="{!neverEverFreezeUsers}" var="usr" rendered="{!neverEverFreezeUsersCount <= 1000}">
+                <apex:column value="{!usr.Name}" headerValue="User"/>
+                <apex:column value="{!usr.Profile.Name}" headerValue="Profile"/>
+            </apex:pageBlockTable>
+
+            <apex:pageMessage summary="More than 1000 never-ever-freeze users - unable to show the list! Don't worry, they still won't be frozen!"
+                          severity="warning"
+                          strength="1"
+                          rendered="{!neverEverFreezeUsersCount > 1000}" />
+        </apex:pageBlock>
+
+        <apex:pageMessage summary="No users to freeze!"
+                          severity="info"
+                          strength="1"
+                          rendered="{!IF(usersToFreezeCount <= 0, 'true', 'false')}" />
+    </apex:outputPanel>
+
+    <!--
+    **********************************************************************************
+    Melt panel
+    **********************************************************************************
+    -->
+    <apex:outputPanel rendered="{!showMeltPanel}" id="meltPanel">
+        <apex:pageBlock rendered="{!IF(usersToMeltCount > 0, 'true', 'false')}">
+            <apex:actionstatus id="meltBtnArea">
+                <apex:facet name="start">
+                    <apex:commandbutton value="Melting {!usersToMeltCount} users..."  disabled="true" id="meltingStatusBtn"/>
+                </apex:facet>
+                <apex:facet name="stop">
+                    <apex:commandButton value="Melt all frozen users ({!usersToMeltCount})"
+                                        action="{!meltAll}"
+                                        status="meltBtnArea"
+                                        rerender="btnForm"/>
+                </apex:facet>
+            </apex:actionstatus>
+        </apex:pageBlock>
+
+        <apex:pageMessage summary="No users to melt!"
+                          severity="info"
+                          strength="1"
+                          rendered="{!IF(usersToMeltCount <= 0, 'true', 'false')}" />
+    </apex:outputPanel>
+
+    <!--
+    **********************************************************************************
+    Informational output that the user does not have access
+    to perform the operation selected (melt/freeze)
+    This is based on the custom setting MassFreezeSecurity__c
+    **********************************************************************************
+    -->
+    <apex:outputPanel id="authMessagePanel">
+        <apex:pageMessage summary="Sorry - not authorized to {!pageAction} users!"
+                          severity="warning"
+                          strength="1"
+                          rendered="{!showNotAllowedMessage}" />
+    </apex:outputPanel>
+
+</apex:form>
+</apex:page>

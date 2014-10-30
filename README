@@ -1,0 +1,13 @@
+#SFDC-Mass-Freeze-Users
+
+Platform: Salesforce.com/Force.com, Apex code, Visualforce page, Custom Setting
+Using native SFDC technology, provides a way to "freeze" all users in your org,
+i.e. disabling them from logging in.
+This is useful e.g. when you need to have the system offline for whatever reason.
+
+##Features
+* Mass freeze users
+* Mass melt all frozen users
+* Custom Setting to enable only specific users and profiles the ability to melt
+* Custom Setting to control specific users and profiles that will not be frozen
+* Will not freeze the current user :)

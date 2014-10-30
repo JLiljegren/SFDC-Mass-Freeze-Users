@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <customSettingsVisibility>Protected</customSettingsVisibility>
+    <description>Contains settings for the Mass Freeze tool (mass freezing and melting users).</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>HasPermissionToFreezeUsers__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>When checked, this user/profile will be able to launch the Mass Freeze tool and freeze mass users. This should typically be restricted to a very limited group of people.</inlineHelpText>
+        <label>Has Permission To Freeze Users</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>HasPermissionToMeltUsers__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>When checked, this user/profile has the ability to melt (unfreeze) users using the Mass Freeze tool, ie mass melting users.</inlineHelpText>
+        <label>Has Permission To Melt Users</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>NeverEverFreeze__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>When checked, this user/profile will never be possible to freeze using the Mass Freeze tool (they will be excluded from the query). Typically, you&apos;d want to put the System Administrator profile on here...</inlineHelpText>
+        <label>Never Ever Freeze</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>Mass Freeze Security</label>
+</CustomObject>
